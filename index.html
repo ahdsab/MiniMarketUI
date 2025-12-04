@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Market — Fresh Products, Every Day</title>
+  <!-- Internal styles for the Mini Market home page -->
+  <style>
+    /* ======================
+       Variables & Base
+       ====================== */
+    :root{
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #2e8b57; /* green */
+      --accent: linear-gradient(135deg,#2e8b57 0%, #3fc78a 100%);
+      --max-width: 1100px;
+      --radius: 12px;
+      --shadow: 0 6px 18px rgba(16,24,40,0.06);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:var(--bg);
+      color:#111827;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* ======================
+       Layout Containers
+       ====================== */
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+
+    /* ======================
+       Header / Nav
+       ====================== */
+    header{
+      background:var(--primary);
+      color:white;
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    .logo{font-weight:700;font-size:1.25rem;letter-spacing:0.4px}
+
+    nav{
+      display:flex;gap:18px;align-items:center;
+    }
+    nav a{
+      color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 12px;border-radius:8px;transition:all .18s ease;
+      font-weight:600;font-size:0.95rem;
+    }
+    nav a:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px)}
+
+    /* Mobile nav (stacked) */
+    .nav-mobile{display:none}
+
+    /* ======================
+       Hero
+       ====================== */
+    .hero{
+      background:var(--accent);
+      color:white;padding:56px 0;border-bottom-left-radius:24px;border-bottom-right-radius:24px;
+      margin-bottom:28px;
+    }
+    .hero-inner{display:flex;align-items:center;gap:36px}
+    .hero-copy{flex:1}
+    .hero h1{font-size:2.2rem;margin:0 0 12px}
+    .hero p{margin:0 0 18px;color:rgba(255,255,255,0.95);max-width:56ch}
+    .btn{display:inline-block;background:white;color:var(--primary);padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none;box-shadow:none;transition:transform .15s ease,box-shadow .15s ease}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(46,139,87,0.18)}
+
+    /* hero visual (simple image placeholder) */
+    .hero-art{width:420px;min-width:220px}
+    .hero-art .card{background:rgba(255,255,255,0.12);padding:22px;border-radius:16px;box-shadow:var(--shadow)}
+
+    /* ======================
+       Sections Common
+       ====================== */
+    section{padding:28px 0}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .section-title h2{margin:0;font-size:1.25rem}
+    .muted{color:var(--muted);font-size:0.95rem}
+
+    /* ======================
+       Products Grid
+       ====================== */
+    .grid-products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .product-card{background:var(--card);border-radius:12px;padding:14px;box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
+    .product-card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(16,24,40,0.08)}
+    .product-media{height:140px;border-radius:10px;background:linear-gradient(180deg,#e9f7ef,#f3fff7);display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700;margin-bottom:12px}
+    .product-name{font-weight:700;margin:0 0 6px}
+    .product-desc{font-size:0.95rem;color:var(--muted);margin:0 0 10px}
+    .product-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .price{font-weight:800;color:var(--primary)}
+    .add-btn{background:var(--primary);color:white;border:none;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;transition:transform .15s ease}
+    .add-btn:hover{transform:translateY(-3px)}
+
+    /* ======================
+       Discounts
+       ====================== */
+    .grid-offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .offer-card{background:var(--card);padding:14px;border-radius:12px;box-shadow:var(--shadow);transition:transform .18s ease}
+    .offer-card:hover{transform:translateY(-6px)}
+    .old-price{color:var(--muted);text-decoration:line-through;margin-right:8px}
+    .new-price{color:var(--primary);font-weight:800}
+
+    /* ======================
+       Contact
+       ====================== */
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .hours{width:100%;border-collapse:collapse}
+    .hours td{padding:6px 8px;border-bottom:1px solid #eef2f7}
+    .contact-form{background:var(--card);padding:14px;border-radius:12px;box-shadow:var(--shadow)}
+    .form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6edf0;font-size:0.95rem}
+    textarea{min-height:100px;resize:vertical}
+    .submit{background:var(--primary);color:white;padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+
+    /* ======================
+       Footer
+       ====================== */
+    footer{padding:18px 0;color:var(--muted);font-size:0.95rem}
+    .footer-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .footer-row a{color:var(--muted);text-decoration:none;margin-left:12px}
+
+    /* ======================
+       Responsive
+       ====================== */
+    @media (max-width:900px){
+      .hero-inner{flex-direction:column-reverse;align-items:flex-start}
+      .hero-art{width:100%}
+    }
+    @media (max-width:768px){
+      nav{display:none}
+      .nav-mobile{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+      .topbar{flex-direction:column;align-items:flex-start}
+      .hero h1{font-size:1.6rem}
+      .container{padding:0 16px}
+      .contact-grid{grid-template-columns:1fr}
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container topbar">
+      <div class="logo">Mini Market</div>
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#discounts">Discounts</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <!-- Mobile stacked nav (appears via CSS) -->
+      <div class="nav-mobile" aria-hidden="true">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#discounts">Discounts</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <h1>Fresh Products, Every Day</h1>
+        <p>Mini Market brings you high-quality groceries, locally sourced produce, and daily essentials at friendly prices. Visit us in-store or shop our selection online.</p>
+        <a class="btn" href="#products">Shop Now</a>
+      </div>
+      <div class="hero-art">
+        <div class="card">
+          <img src="https://via.placeholder.com/420x220?text=Fresh+Produce" alt="Fresh produce" style="width:100%;border-radius:10px;display:block">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- Products Section -->
+    <section id="products" aria-labelledby="products-title">
+      <div class="section-title">
+        <h2 id="products-title">Our Products</h2>
+        <div class="muted">Quality you can trust — curated for everyday needs</div>
+      </div>
+
+      <div class="grid-products">
+        <!-- Product 1 -->
+        <article class="product-card">
+          <div class="product-media">Apples</div>
+          <h3 class="product-name">Red Apples</h3>
+          <p class="product-desc">Crisp and juicy apples, perfect for snacking or baking.</p>
+          <div class="product-row">
+            <div class="price">$2.99 / lb</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card">
+          <div class="product-media">Milk</div>
+          <h3 class="product-name">Fresh Milk</h3>
+          <p class="product-desc">Pasteurized whole milk from local dairies.</p>
+          <div class="product-row">
+            <div class="price">$3.50</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card">
+          <div class="product-media">Bread</div>
+          <h3 class="product-name">Artisan Bread</h3>
+          <p class="product-desc">Freshly baked sourdough and whole wheat loaves.</p>
+          <div class="product-row">
+            <div class="price">$4.25</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="product-card">
+          <div class="product-media">Eggs</div>
+          <h3 class="product-name">Free-Range Eggs</h3>
+          <p class="product-desc">A dozen large free-range eggs with great taste.</p>
+          <div class="product-row">
+            <div class="price">$3.99</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="product-card">
+          <div class="product-media">Snacks</div>
+          <h3 class="product-name">Healthy Snacks</h3>
+          <p class="product-desc">Nuts, granola bars, and baked crisps for quick energy.</p>
+          <div class="product-row">
+            <div class="price">From $1.50</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="product-card">
+          <div class="product-media">Drinks</div>
+          <h3 class="product-name">Cold Drinks</h3>
+          <p class="product-desc">Refreshing beverages, juices and sparkling water.</p>
+          <div class="product-row">
+            <div class="price">From $0.99</div>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Discounts / Special Offers -->
+    <section id="discounts" aria-labelledby="discounts-title">
+      <div class="section-title">
+        <h2 id="discounts-title">Special Offers</h2>
+        <div class="muted">Limited time deals — grab them while they last</div>
+      </div>
+
+      <div class="grid-offers">
+        <div class="offer-card">
+          <h3>Organic Bananas</h3>
+          <p><span class="old-price">$1.99 / lb</span><span class="new-price">$1.29 / lb</span></p>
+          <p class="product-desc">This week only — perfectly ripe and full of flavor.</p>
+        </div>
+
+        <div class="offer-card">
+          <h3>Greek Yogurt (500g)</h3>
+          <p><span class="old-price">$5.00</span><span class="new-price">$3.99</span></p>
+          <p class="product-desc">Creamy and rich — save on a customer favorite.</p>
+        </div>
+
+        <div class="offer-card">
+          <h3>Olive Oil</h3>
+          <p><span class="old-price">$12.50</span><span class="new-price">$9.99</span></p>
+          <p class="product-desc">Premium extra virgin olive oil — limited stock.</p>
+        </div>
+
+        <div class="offer-card">
+          <h3>Snack Pack Combo</h3>
+          <p><span class="old-price">$8.00</span><span class="new-price">$5.99</span></p>
+          <p class="product-desc">Great for lunchboxes — a mixed snack selection.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Opening Hours -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section-title">
+        <h2 id="contact-title">Contact & Opening Hours</h2>
+        <div class="muted">We'd love to hear from you — drop a message or visit us</div>
+      </div>
+
+      <div class="contact-grid">
+        <div>
+          <p><strong>Address:</strong> 123 Market Lane, Hometown, 00000</p>
+          <p><strong>Phone:</strong> (555) 123-4567</p>
+
+          <table class="hours" aria-label="Opening hours">
+            <tbody>
+              <tr><td>Sunday</td><td>8:00 AM — 6:00 PM</td></tr>
+              <tr><td>Monday</td><td>7:00 AM — 8:00 PM</td></tr>
+              <tr><td>Tuesday</td><td>7:00 AM — 8:00 PM</td></tr>
+              <tr><td>Wednesday</td><td>7:00 AM — 8:00 PM</td></tr>
+              <tr><td>Thursday</td><td>7:00 AM — 8:00 PM</td></tr>
+              <tr><td>Friday</td><td>7:00 AM — 9:00 PM</td></tr>
+              <tr><td>Saturday</td><td>8:00 AM — 9:00 PM</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="contact-form">
+          <form aria-label="Contact form">
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input id="name" type="text" placeholder="Your name">
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@example.com">
+            </div>
+            <div class="form-row">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="How can we help?"></textarea>
+            </div>
+            <div class="form-row">
+              <button type="button" class="submit">Send Message</button>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-row">
+      <div>© 2025 Mini Market. All rights reserved.</div>
+      <div>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>minimarketui</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
