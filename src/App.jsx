@@ -1,19 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Discounts from "./pages/Discounts";
+import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
+import "./App.css";
+
+export default function App() {
   return (
-    <div>
-      <header style={{ background: "#3632a8", padding: "10px", color: "red" }}>
-        <h1>Mini Market</h1>
-        <h3>hi</h3>
-      </header>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/discounts" element={<Discounts />} />
+          <Route path="/contact" element={<Contact />} />
 
-export default App
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
