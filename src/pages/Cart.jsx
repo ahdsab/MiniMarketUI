@@ -40,17 +40,20 @@ export default function Cart() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="loading">Loading cart...</div>;
   if (err) return <p className="error">{err}</p>;
   if (!cart) return null;
 
   return (
     <div className="page">
-      <h2>Your Cart</h2>
-      <p className="muted">User: <b>{cart.username}</b></p>
+      <h2>Your Shopping Cart</h2>
+      <p className="muted">Shopping as: <b>{cart.username}</b></p>
 
       {cart.items.length === 0 ? (
-        <p className="muted">Cart is empty.</p>
+        <div className="card" style={{ textAlign: 'center', padding: '60px 24px' }}>
+          <p className="muted" style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Your cart is empty</p>
+          <p className="muted">Start adding products to see them here!</p>
+        </div>
       ) : (
         <div className="card">
           <table className="table">
@@ -67,7 +70,7 @@ export default function Cart() {
             <tbody>
               {cart.items.map((it) => (
                 <tr key={it.product_id}>
-                  <td>{it.name}</td>
+                  <td><strong>{it.name}</strong></td>
                   <td className="muted">{it.unit}</td>
                   <td>${it.unit_price}</td>
                   <td>
@@ -79,7 +82,7 @@ export default function Cart() {
                       onChange={(e) => updateQty(it.product_id, Number(e.target.value))}
                     />
                   </td>
-                  <td><b>${it.line_total}</b></td>
+                  <td><strong style={{ color: 'var(--primary)' }}>${it.line_total}</strong></td>
                   <td>
                     <button className="btn btn-danger btn-sm" onClick={() => remove(it.product_id)}>
                       Remove
@@ -90,9 +93,12 @@ export default function Cart() {
             </tbody>
           </table>
 
-          <div className="row" style={{ marginTop: 12 }}>
-            <span className="muted">Updated: {cart.updated_at}</span>
-            <span className="total">Total: ${cart.total}</span>
+          <div className="row" style={{ marginTop: '24px', paddingTop: '24px', borderTop: '2px solid var(--border)' }}>
+            <span className="muted" style={{ fontSize: '0.9rem' }}>Last updated: {cart.updated_at}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+              <span className="muted" style={{ fontSize: '0.9rem' }}>Grand Total</span>
+              <span className="total">${cart.total}</span>
+            </div>
           </div>
         </div>
       )}

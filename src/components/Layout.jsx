@@ -36,7 +36,7 @@ export default function Layout() {
       </header>
 
       <main className="container main">
-        {!auth.ready ? <p>Loading...</p> : <Outlet />}
+        {!auth.ready ? <div className="loading">Loading...</div> : <Outlet />}
       </main>
 
       <footer className="footer">

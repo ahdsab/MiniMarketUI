@@ -35,22 +35,24 @@ export default function Products() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="loading">Loading products...</div>;
   if (err) return <p className="error">{err}</p>;
 
   return (
     <div className="page">
       <h2>Products</h2>
-      <p className="muted">Login to add items to your personal cart.</p>
+      <p className="muted">Browse our selection and login to add items to your personal cart.</p>
 
       <div className="grid">
         {products.map((p) => (
           <div className="card" key={p.id}>
             <h3>{p.name}</h3>
             <p className="muted">{p.description}</p>
-            <div className="row">
-              <b>${p.price}</b>
-              <button className="btn" onClick={() => add(p.id)}>Add</button>
+            <div className="row" style={{ marginTop: '16px' }}>
+              <div>
+                <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary)' }}>${p.price}</span>
+              </div>
+              <button className="btn btn-sm" onClick={() => add(p.id)}>Add to Cart</button>
             </div>
           </div>
         ))}

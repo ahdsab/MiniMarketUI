@@ -23,13 +23,18 @@ export default function Contact() {
 
   return (
     <div className="page">
-      <h2>Contact</h2>
+      <h2>Contact Us</h2>
+      <p className="muted">Have a question or feedback? We'd love to hear from you!</p>
       <form onSubmit={submit} className="card form">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" required />
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message" rows={4} required />
-        <button className="btn" type="submit">Send</button>
-        {status && <p className="muted">{status}</p>}
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" required />
+        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email" type="email" required />
+        <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Your Message" rows={5} required />
+        <button className="btn" type="submit">Send Message</button>
+        {status && (
+          <p className={status.includes('Sent') || status.includes('Success') ? 'status success' : 'muted'}>
+            {status}
+          </p>
+        )}
       </form>
     </div>
   );
