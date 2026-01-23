@@ -47,7 +47,6 @@ export default function Cart() {
   return (
     <div className="page">
       <h2>Your Shopping Cart</h2>
-      <p className="muted">Shopping as: <b>{cart.username}</b></p>
 
       {cart.items.length === 0 ? (
         <div className="card" style={{ textAlign: 'center', padding: '60px 24px' }}>
@@ -60,7 +59,6 @@ export default function Cart() {
             <thead>
               <tr>
                 <th>Item</th>
-                <th>Unit</th>
                 <th>Price</th>
                 <th>Qty</th>
                 <th>Total</th>
@@ -71,13 +69,12 @@ export default function Cart() {
               {cart.items.map((it) => (
                 <tr key={it.product_id}>
                   <td><strong>{it.name}</strong></td>
-                  <td className="muted">{it.unit}</td>
-                  <td>${it.unit_price}</td>
+                  <td>${it.price}</td>
                   <td>
                     <input
                       className="qty"
                       type="number"
-                      min="1"
+                      min="0"
                       value={it.quantity}
                       onChange={(e) => updateQty(it.product_id, Number(e.target.value))}
                     />
@@ -94,8 +91,7 @@ export default function Cart() {
           </table>
 
           <div className="row" style={{ marginTop: '24px', paddingTop: '24px', borderTop: '2px solid var(--border)' }}>
-            <span className="muted" style={{ fontSize: '0.9rem' }}>Last updated: {cart.updated_at}</span>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', marginLeft: 'auto' }}>
               <span className="muted" style={{ fontSize: '0.9rem' }}>Grand Total</span>
               <span className="total">${cart.total}</span>
             </div>

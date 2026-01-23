@@ -39,15 +39,15 @@ export function AuthProvider({ children }) {
       await api.register({ username: usernameInput, password });
       // auto-login after register
       const res = await api.login({ username: usernameInput, password });
-      setStoredAuth(res.token, res.username);
-      setToken(res.token);
+      setStoredAuth(res.access_token, res.username);
+      setToken(res.access_token);
       setUsername(res.username);
     },
 
     async login(usernameInput, password) {
       const res = await api.login({ username: usernameInput, password });
-      setStoredAuth(res.token, res.username);
-      setToken(res.token);
+      setStoredAuth(res.access_token, res.username);
+      setToken(res.access_token);
       setUsername(res.username);
     },
 
